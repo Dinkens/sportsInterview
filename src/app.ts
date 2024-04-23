@@ -322,11 +322,11 @@ class App {
         //skip instruction
         const skipBtn = Button.CreateImageWithCenterTextButton("skip", "ДА ПОНЯЛ Я, ПУСТИ ИГРАТЬ","sprites/startBtn.png");
         skipBtn.fontFamily = "Viga";
-        skipBtn.width = 0.2
-        skipBtn.height = "40px";
+        skipBtn.width = "15%"
+        skipBtn.height = "7%";
         skipBtn.color = "white";
-        skipBtn.top = "-180px";
         skipBtn.thickness = 0;
+        skipBtn.top = "-17%";
         skipBtn.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
         instruction.addControl(skipBtn);
 
@@ -543,7 +543,7 @@ class App {
 
         const text = new TextBlock();
         text.fontSize = 24;
-        text.color = "white";
+        text.color = "black";
         text.height = "100px";
         text.width = "100%";
         panel.addControl(text);
@@ -557,8 +557,8 @@ class App {
         dots.height = "100px";
         dots.width = "100%";
         dots.text = "...."
-
-        const mainBtn = Button.CreateSimpleButton("mainmenu", "MAIN MENU");
+        
+        const mainBtn = Button.CreateImageWithCenterTextButton("mainmenu", "MAIN MENU","sprites/startBtn.png");
         mainBtn.width = 0.2;
         mainBtn.height = "40px";
         mainBtn.color = "black";

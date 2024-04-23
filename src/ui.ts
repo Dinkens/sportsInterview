@@ -29,7 +29,7 @@ export class Hud {
     private _playerUI;
     private _pauseMenu;
     private _controls;
-    public hint;
+    public tutorial;
 
     //Mobile
     public isMobile: boolean;
@@ -116,33 +116,20 @@ export class Hud {
             this._pause.play(); //play pause music
         });
 
-        const hint = new Rectangle();
-        hint.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        hint.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
-        hint.top = "14%";
-        hint.left = "-4%";
-        hint.height = 0.08;
-        hint.width = 0.08;
-        hint.thickness = 0;
-        hint.alpha = 0.6;
-        hint.isVisible = false;
-        this._playerUI.addControl(hint);
-        this.hint = hint;
-        //hint to the first coin, will disappear once you light it
-        const coinHint = new Image("coin1", "sprites/arrowBtn.png");
-        coinHint.rotation = Math.PI / 2;
-        coinHint.stretch = Image.STRETCH_UNIFORM;
-        coinHint.height = 0.8;
-        coinHint.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
-        hint.addControl(coinHint);
-        const moveHint = new TextBlock("move", "Move Right");
-        moveHint.color = "white";
-        moveHint.fontSize = "12px";
-        moveHint.fontFamily = "Viga";
-        moveHint.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-        moveHint.textWrapping = true;
-        moveHint.resizeToFit = true;
-        hint.addControl(moveHint);
+        const tutorial = new Rectangle();
+        tutorial.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        tutorial.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+        tutorial.top = "12%";
+        tutorial.left = "-1%";
+        tutorial.height = 0.2;
+        tutorial.width = 0.2;
+        tutorial.thickness = 0;
+        tutorial.alpha = 0.6;
+        this._playerUI.addControl(tutorial);
+        this.tutorial = tutorial;
+        //movement image, will disappear once you attempt all of the moves
+        let movementPC = new Image("pause", "sprites/tutorial.png");
+        tutorial.addControl(movementPC);
 
         this._createPauseMenu();
         this._createControlsMenu();
@@ -152,6 +139,9 @@ export class Hud {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             this.isMobile = true; // tells inputController to track mobile inputs
 
+            movementPC.isVisible = false;
+            let movementMobile = new Image("pause", "sprites/tutorialMobile.png");
+            tutorial.addControl(movementMobile);
             //--ACTION BUTTONS--
             // container for action buttons (right side of screen)
             const actionContainer = new Rectangle();
@@ -251,7 +241,10 @@ export class Hud {
 
     public updateHud(): void {
         if (!this._stopTimer && this._startTime != null) {
-            let curTime = Math.floor(( this._startTime - new Date().getTime()) / 500) + this._prevTime; // divide by 1000 to get seconds
+            let curTime = Math.floor(( this._startTime - new Date().getTime()) / 1000) + this._prevTime; // divide by 1000 to get seconds
+            console.log("new Date().getTime()", new Date().getTime())
+            console.log("this._startTime", this._startTime)
+            
             this.time = curTime; //keeps track of the total time elapsed in seconds
             this._clockTime.text = `${this.time}$`;
         }
@@ -259,7 +252,7 @@ export class Hud {
 
     public updateCoinCount(numCoins: number): void {
         this._coinCnt.text = "Coins: " + numCoins + " / 20";
-        this._startTime = new Date().getTime() + 100000;
+        this._startTime += 10000;
     }
     //---- Game Timer ----
     public startTimer(): void {
